@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  queues      Queue[]
+  queueEntries QueueEntry[]
+
+  @@map("users")
+}
+
+model Queue {
+  id          String   @id @default(cuid())
+  name        String
+  location    String
+  category    String
+  description String?
+  isPublic    Boolean  @default(true)
+  isActive    Boolean  @default(true)
+  capacity    Int      @default(100)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  ownerId     String
+  owner       User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  entries     QueueEntry[]
+  customFields QueueCustomField[]
+
+  @@map("queues")
+}
+
+model QueueEntry {
+  id        String   @id @default(cuid())
+  position  Int
+  status    EntryStatus @default(WAITING)
+  joinedAt  DateTime @default(now())
+  servedAt  DateTime?
+  userData  Json     // Store custom form data as JSON
+  
+  // Relations
+  queueId   String
+  queue     Queue    @relation(fields: [queueId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("queue_entries")
+}
+
+model QueueCustomField {
+  id       String @id @default(cuid())
+  label    String
+  type     FieldType
+  required Boolean @default(false)
+  options  Json?    // For select/radio fields
+  order    Int      @default(0)
+
+  // Relations
+  queueId  String
+  queue    Queue  @relation(fields: [queueId], references: [id], onDelete: Cascade)
+
+  @@map("queue_custom_fields")
+}
+
+enum EntryStatus {
+  WAITING
+  SERVED
+  SKIPPED
+  LEFT
+}
+
+enum FieldType {
+  TEXT
+  EMAIL
+  TEL
+  NUMBER
+  DATE
+  TEXTAREA
+  SELECT
+  RADIO
+  CHECKBOX
+}
