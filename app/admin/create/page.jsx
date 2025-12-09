@@ -8,6 +8,8 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { FancySwitch } from "@/components/ui/fancy-switch";
+
 import {
   Card,
   CardContent,
@@ -206,20 +208,6 @@ export default function CreateQueuePage() {
                         }
                       />
                     </div>
-
-                    {/* Public Toggle */}
-                    <div className="flex items-center gap-2 pt-2">
-                      <Switch
-                        id="public"
-                        checked={formData.isPublic}
-                        onCheckedChange={(val) =>
-                          handleInputChange("isPublic", val)
-                        }
-                      />
-                      <Label htmlFor="public">
-                        Make this queue publicly visible
-                      </Label>
-                    </div>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -304,14 +292,14 @@ export default function CreateQueuePage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <Switch
-                            id={`required-${field.id}`}
+                        <div className="flex items-center gap-20">
+                          <FancySwitch
                             checked={field.required}
                             onCheckedChange={(val) =>
                               handleFieldChange(field.id, "required", val)
                             }
                           />
+
                           <Label htmlFor={`required-${field.id}`}>
                             Required
                           </Label>

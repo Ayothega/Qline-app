@@ -10,7 +10,7 @@ export function HeroSection() {
   const { isSignedIn } = useUser();
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-20">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 -z-10" />
 
@@ -50,9 +50,10 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-center text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-normal bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+           <h1 className="text-center text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-snug md:leading-snug lg:leading-relaxed bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
               AI Powered Queue Management App
-            </h1>
+              </h1>
+
             <p className="text-center text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               Streamline your waiting lines, enhance customer experience and
               gain valuable insights with our intelligent queue management

@@ -35,7 +35,7 @@ export default function QueuesPage() {
 
   useEffect(() => {
     fetchQueues();
-  }, [searchTerm, selectedCategory, sortBy]);
+  }, []);
 
   const fetchQueues = async () => {
     try {
@@ -156,20 +156,20 @@ export default function QueuesPage() {
                         <div className="font-medium text-sm px-3 py-1">
                           Categories
                         </div>
-                        {categories.map((cat) => (
+                        {["All", ...categories].map((cat) => (
                           <button
                             key={cat}
                             className={`w-full text-left px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded ${
-                              cat === selectedCategory ? "font-semibold" : ""
+                              (cat === "All" && selectedCategory === null) || cat === selectedCategory
+                                ? "font-semibold"
+                                : ""
                             }`}
                             onClick={() => {
-                              setSelectedCategory(
-                                cat === selectedCategory ? null : cat
-                              );
+                              setSelectedCategory(cat === "All" ? null : cat);
                               setFilterMenuOpen(false);
                             }}
                           >
-                            {cat} {cat === selectedCategory && "✓"}
+                            {cat} {(cat === "All" && selectedCategory === null) || cat === selectedCategory ? "✓" : ""}
                           </button>
                         ))}
                       </div>
